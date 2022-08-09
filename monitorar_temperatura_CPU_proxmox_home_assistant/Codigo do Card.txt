@@ -1,0 +1,160 @@
+type: custom:config-template-card
+variables:
+  - states['sensor.ram'].state
+  - states['sensor.uso_cpu'].state
+  - states['sensor.temperatura'].state
+entities:
+  - sensor.ram
+  - sensor.uso_cpu
+  - sensor.temperatura
+card:
+  type: entities
+  show_header_toggle: 'off'
+  style: |
+    .card-header {
+      padding: 0px 0px 0px 0px !important;
+    }
+  entities:
+    - type: section
+      label: Mini PC - Home Assistant
+    - type: custom:hui-element
+      card_type: vertical-stack
+      cards:
+        - type: horizontal-stack
+          cards:
+            - type: picture
+              style: |
+                ha-card { 
+                    --paper-card-background-color: 'rgba(0, 0, 0, 0.0)';
+                    --ha-card-background: "rgba(0, 0, 0, 0.0)";
+                    --ha-card-box-shadow: 'none';
+                }
+              image: /local/images/mini_pc.png
+            - type: custom:button-card
+              layout: icon_name_state2nd
+              show_icon: true
+              show_state: true
+              styles:
+                grid:
+                  - grid-template-columns: 40px auto
+                icon:
+                  - padding: 0px 0px
+                  - height: 30px
+                  - width: 30px
+                card:
+                  - '--ha-card-background': rgba(0, 0, 0, 0.0)
+                  - '--ha-card-box-shadow': none
+                state:
+                  - padding: 0px 10px
+                  - justify-self: start
+                  - font-family: Roboto, sans-serif
+                  - font-size: 15px
+                name:
+                  - padding: 0px 10px
+                  - justify-self: start
+                  - color: var(--secondary-text-color)
+              entity: sensor.homeassistant_uptime
+              name: Atividade
+              icon: mdi:clock-outline
+        - type: horizontal-stack
+          cards:
+            - type: entity
+              entity: sensor.hacs
+              name: Atualizações HACS
+              state_color: true
+            - type: entity
+              entity: update.home_assistant_core_update
+              state_color: true
+              name: Atualizações HASSIO
+        - type: horizontal-stack
+          cards:
+            - type: custom:bar-card
+              show_icon: true
+              align: split
+              icon: mdi:memory
+              columns: 1
+              max: 100
+              positions:
+                icon: inside
+                indicator: inside
+                name: inside
+                value: inside
+              unit_of_measurement: '%'
+              severity:
+                - from: 0
+                  to: 50
+                  color: '#018304'
+                - from: 50
+                  to: 75
+                  color: '#f39c12'
+                - from: 75
+                  to: 100
+                  color: '#e45e65'
+              style: |
+                ha-card { 
+                  --paper-card-background-color: 'rgba(, 0, 0, 0.0)';
+                  --ha-card-background: "rgba(0, 0, 0, 0.0)";
+                  --paper-item-icon-color: 'var(--text-primary-color';
+                  --ha-card-box-shadow: 'none';
+                }
+              entity: sensor.ram
+              name: RAM
+              entity_row: true
+            - type: custom:bar-card
+              show_icon: true
+              align: split
+              icon: mdi:cpu-64-bit
+              columns: 1
+              max: 100
+              positions:
+                icon: inside
+                indicator: inside
+                name: inside
+                value: inside
+              unit_of_measurement: '%'
+              severity:
+                - from: 0
+                  to: 50
+                  color: '#018304'
+                - from: 50
+                  to: 75
+                  color: '#f39c12'
+                - from: 75
+                  to: 100
+                  color: '#e45e65'
+              style: |
+                ha-card { 
+                  --paper-card-background-color: 'rgba(0, 0, 0, 0.0)';
+                  --ha-card-background: "rgba(0, 0, 0, 0.0)";
+                  --paper-item-icon-color: 'var(--text-primary-color';
+                  --ha-card-box-shadow: 'none';
+                  border-radius: 100px;
+                }
+              entity: sensor.uso_cpu
+              name: CPU
+              entity_row: true
+        - type: custom:mini-graph-card
+          height: 30
+          line_width: 2
+          font_size: 70
+          hours_to_show: 24
+          points_per_hour: 1
+          show:
+            extrema: true
+            fill: true
+          style: |
+            ha-card { 
+              --ha-card-background: "rgba(0, 0, 0, 0.0)";
+              --ha-card-box-shadow: 'none';
+              border-radius: 5px;
+            }
+          entities:
+            - sensor.temperatura
+          name: Temperatura CPU
+          color_thresholds:
+            - value: 30
+              color: '#3498db'
+            - value: 50
+              color: '#f39c12'
+            - value: 80
+              color: '#ff0000'
