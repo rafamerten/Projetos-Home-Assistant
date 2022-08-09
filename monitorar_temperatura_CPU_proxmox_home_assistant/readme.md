@@ -1,3 +1,4 @@
+Este tutorial tem como principal objetivo mostrar a voce uma forma de monitorar a temperatura do cpu e outras informações do seu servidor Proxmox atraves do Home Assistant.
 Com o card de monitoramento pronto temos este resultado.
 
 
